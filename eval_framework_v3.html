@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concordia Delegation Mode Task 评估方案 v3</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafaf8;
+    --surface: #ffffff;
+    --text: #1a1a1a;
+    --text-secondary: #555;
+    --accent: #2563eb;
+    --accent-light: #dbeafe;
+    --border: #e5e5e0;
+    --code-bg: #f4f4f0;
+    --heading: #111;
+    --tag-bg: #f0f0ec;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 15px;
+  }
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 60px 40px 100px;
+  }
+  h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .version {
+    font-size: 0.85em;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+  .subtitle {
+    font-size: 0.85em;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    background: var(--accent-light);
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 48px;
+    line-height: 1.7;
+  }
+  h2 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.45em;
+    font-weight: 700;
+    color: var(--heading);
+    margin-top: 56px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+  }
+  h3 {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--heading);
+    margin-top: 36px;
+    margin-bottom: 14px;
+  }
+  h4 {
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-top: 24px;
+    margin-bottom: 10px;
+  }
+  p { margin-bottom: 14px; }
+  strong { font-weight: 600; color: var(--heading); }
+  .metric-title {
+    font-weight: 600;
+    color: var(--accent);
+    font-size: 1em;
+    margin-top: 28px;
+    margin-bottom: 10px;
+  }
+  .ref-tag {
+    display: inline-block;
+    font-size: 0.78em;
+    color: #6b7280;
+    background: #f3f4f6;
+    padding: 1px 8px;
+    border-radius: 3px;
+    margin-left: 6px;
+    font-weight: 500;
+    vertical-align: middle;
+  }
+  .math-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 24px;
+    margin: 16px 0;
+    overflow-x: auto;
+    text-align: center;
+  }
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 0.92em;
+  }
+  th {
+    background: var(--tag-bg);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+  }
+  td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:nth-child(even) { background: #fafaf8; }
+  pre {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    padding: 20px 24px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 16px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.83em;
+    line-height: 1.6;
+  }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88em;
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  pre code { background: none; padding: 0; }
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+  }
+  .toc h3 { margin-top: 0; margin-bottom: 12px; font-size: 1em; }
+  .toc ul { list-style: none; padding-left: 0; margin-bottom: 0; }
+  .toc li { margin-bottom: 4px; }
+  .toc a { color: var(--accent); text-decoration: none; font-size: 0.93em; }
+  .toc a:hover { text-decoration: underline; }
+  .example-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid #10b981;
+    border-radius: 0 8px 8px 0;
+    padding: 18px 22px;
+    margin: 16px 0;
+    font-size: 0.93em;
+    line-height: 1.7;
+  }
+  .example-block .label {
+    font-weight: 600;
+    color: #10b981;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .note-block {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-left: 3px solid #f59e0b;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 0.92em;
+  }
+  .references { font-size: 0.88em; color: var(--text-secondary); }
+  .references li { margin-bottom: 8px; }
+  @media (max-width: 600px) {
+    .container { padding: 30px 18px 60px; }
+    h1 { font-size: 1.5em; }
+    table { font-size: 0.82em; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Concordia Delegation Mode Task 评估方案</h1>
+<p class="version">v3 — 增加数据集 Schema、标注流程，补充指标溯源</p>
+<div class="subtitle">
+综合参考：TaskBench [1]、REALM-Bench [2]、ATOD-Eval [3]、GDPval [4]、LLM Agent Evaluation Survey [5]，以及 τ-Bench [9]、T-Eval [7]、AgentBoard [8] 等评估体系。方括号编号对应附录参考文献。
+</div>
+
+<div class="toc">
+<h3>目录</h3>
+<ul>
+  <li><a href="#s0">0. 评估场景定义</a></li>
+  <li><a href="#s1">1. 评估数据集设计</a></li>
+  <li><a href="#s2">2. 评估数据集有效性验证</a></li>
+  <li><a href="#s3">3. 评估模块 A — ToDo List 识别</a></li>
+  <li><a href="#s4">4. 评估模块 B — ToDo 执行质量（端到端）</a></li>
+  <li><a href="#s5">5. 评估模块 C — 稳定性</a></li>
+  <li><a href="#s6">6. 整体评估流程</a></li>
+  <li><a href="#s7">7. 指标一览表</a></li>
+  <li><a href="#ref">附录：参考文献</a></li>
+</ul>
+</div>
+
+<!-- ==================== Section 0 ==================== -->
+<h2 id="s0">0. 评估场景定义</h2>
+
+<p>被评估的 Agent 接收一封或多封邮件，需要完成以下端到端流程：</p>
+<ol>
+  <li><strong>Context 获取</strong>：从邮件中提取关键信息，必要时调用工具（日历、通讯录、知识库等）补充上下文。</li>
+  <li><strong>ToDo List 生成</strong>：将邮件意图拆解为一个有序的任务列表。</li>
+  <li><strong>Deliverable 产出</strong>：对每个 ToDo 项执行任务并生成对应的交付物（回复邮件草稿、会议邀请、文档、报告等）。</li>
+</ol>
+
+<p>评估分为三个模块：</p>
+<table>
+  <thead><tr><th>模块</th><th>评估对象</th><th>核心问题</th><th>权重</th></tr></thead>
+  <tbody>
+    <tr><td>A. ToDo List 识别</td><td>任务拆解结果</td><td>识别了哪些任务？顺序和属性对不对？</td><td>0.30</td></tr>
+    <tr><td>B. ToDo 执行质量</td><td>每个 ToDo 的端到端执行</td><td>做成了没有？过程对不对？产出好不好？</td><td>0.50</td></tr>
+    <tr><td>C. 稳定性</td><td>重复运行与扰动测试</td><td>结果一致吗？扛不扛得住干扰？</td><td>0.20</td></tr>
+  </tbody>
+</table>
+
+<hr>
+
+<!-- ==================== Section 1 ==================== -->
+<h2 id="s1">1. 评估数据集设计</h2>
+
+<h3>1.1 数据集 Schema</h3>
+
+<p>每个 test case 是一个 JSON 对象，包含输入、标注、规则三部分：</p>
+
+<pre><code>{
+  "case_id": "TC-001",
+  "difficulty": "semantic",           // explicit | semantic | adversarial
+  "email": {                          // ─── 输入：邮件原文 ───
+    "from": "<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="94f5f8fdf7f1d4f7fbf9e4f5faedbaf7fbf9">[email&#160;protected]</a>",
+    "to": "<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dba2bab49bb8b4b6abbab5a2f5b8b4b6">[email&#160;protected]</a>",
+    "date": "2025-03-05T09:30:00",
+    "subject": "周五会议 + 季度报告",
+    "body": "Hi Yao，请确认周五下午2点的季度回顾会议...",
+    "attachments": []
+  },
+  "context": {                        // ─── 输入：可用上下文 ───
+    "projects": [
+      {"id": "P-101", "name": "Q1 季度回顾", "description": "..."},
+      {"id": "P-102", "name": "办公行政", "description": "..."}
+    ],
+    "available_tools": ["check_calendar", "book_room", "send_email", "create_document"]
+  },
+
+  "gold_todos": [                     // ─── 标注：期望的 ToDo list ───
+    {
+      "id": "T1",
+      "description": "查日历确认周五下午2点有空",
+      "priority": "high",
+      "deadline": "2025-03-05",
+      "depends_on": [],
+      "task_type": "tool_action"
+    },
+    {
+      "id": "T2",
+      "description": "回复 Alice 确认参加周五会议",
+      "priority": "high",
+      "deadline": "2025-03-05",
+      "depends_on": ["T1"],
+      "task_type": "email_draft"
+    },
+    {
+      "id": "T3",
+      "description": "预订可容纳10人的会议室",
+      "priority": "high",
+      "deadline": "2025-03-07",
+      "depends_on": [],
+      "task_type": "tool_action"
+    },
+    {
+      "id": "T4",
+      "description": "准备 Q1 季度报告 PPT 初稿",
+      "priority": "medium",
+      "deadline": "2025-03-10",
+      "depends_on": [],
+      "task_type": "document"
+    }
+  ],
+
+  "gold_tool_calls": [                // ─── 标注：期望的工具调用 ───
+    {
+      "todo_ref": "T1",
+      "tool_name": "check_calendar",
+      "parameters": {"date": "2025-03-07", "time": "14:00"},
+      "expected_result_contains": "空闲"
+    },
+    {
+      "todo_ref": "T3",
+      "tool_name": "book_room",
+      "parameters": {"capacity": 10, "date": "2025-03-07"},
+      "expected_result_contains": "预订成功"
+    }
+  ],
+
+  "gold_key_info": {                  // ─── 标注：每个 ToDo 可用的关键信息 ───
+    "T1": ["会议时间=周五下午2点", "发件人=Alice"],
+    "T2": ["会议时间=周五下午2点", "发件人=Alice", "日历查询结果", "会议主题=季度回顾"],
+    "T3": ["会议室容量=10人", "会议日期=周五"],
+    "T4": ["报告类型=Q1季度报告", "格式=PPT", "截止日=下周一", "关联项目=P-101"]
+  },
+
+  "rubrics": {                        // ─── 标注：per-case 评分 rubric ───
+    "T2": {
+      "total_points": 10,
+      "items": [
+        {"criterion": "明确表达了确认参加的意思", "points": 3},
+        {"criterion": "提到了具体时间（周五下午2点）", "points": 2},
+        {"criterion": "利用了日历查询结果确认无冲突", "points": 2},
+        {"criterion": "语气专业得体", "points": 1},
+        {"criterion": "没有捏造邮件中不存在的信息", "points": 2}
+      ]
+    },
+    "T4": {
+      "total_points": 10,
+      "items": [
+        {"criterion": "包含 Q1 业务数据概览章节", "points": 3},
+        {"criterion": "包含关键指标同比/环比分析", "points": 3},
+        {"criterion": "包含下季度展望或行动计划", "points": 2},
+        {"criterion": "结构清晰，章节逻辑合理", "points": 1},
+        {"criterion": "没有包含超出 Q1 范围的内容", "points": 1}
+      ]
+    }
+  },
+
+  "task_type_rules": {                // ─── 规则：任务类型通用规则（可全局复用）───
+    "email_draft": {
+      "success_condition": "deliverable 存在且 format_type=email_draft",
+      "format_checks": ["metadata.to 非空", "metadata.subject 非空", "content 非空"]
+    },
+    "tool_action": {
+      "success_condition": "对应工具调用返回成功",
+      "format_checks": []
+    },
+    "document": {
+      "success_condition": "deliverable 存在且 content 长度 > 100 字",
+      "format_checks": ["包含标题", "包含章节结构"]
+    }
+  }
+}</code></pre>
+
+<h3>1.2 字段说明</h3>
+
+<table>
+  <thead><tr><th>字段</th><th>类型</th><th>标注方式</th><th>服务的 Metric</th></tr></thead>
+  <tbody>
+    <tr><td><code>email</code></td><td>输入</td><td>选取/构造真实邮件</td><td>全部</td></tr>
+    <tr><td><code>context</code></td><td>输入</td><td>配置项目和工具</td><td>全部</td></tr>
+    <tr><td><code>gold_todos</code></td><td>人工标注</td><td>每 case 标注</td><td>M1, M2, M3</td></tr>
+    <tr><td><code>gold_tool_calls</code></td><td>人工标注</td><td>每 case 标注</td><td>M6 (Tool Quality)</td></tr>
+    <tr><td><code>gold_key_info</code></td><td>LLM 生成 + 人工审核</td><td>每 case 审核</td><td>M5 (Info Utilization)</td></tr>
+    <tr><td><code>rubrics</code></td><td>LLM 生成 + 人工审核</td><td>每 case 审核</td><td>M8 (Content Quality)</td></tr>
+    <tr><td><code>task_type_rules</code></td><td>规则</td><td>一次性定义，全局复用</td><td>M4 (Exec Success), M7 (Format)</td></tr>
+  </tbody>
+</table>
+
+<h3>1.3 标注流程</h3>
+
+<pre><code>每个 test case 的标注步骤（预计 10-15 分钟/case）:
+
+Step 1: 人工标注 gold_todos（含依赖关系和属性）
+        → 覆盖 M1 Task F1, M2 Edge F1, M3 Attribute Accuracy
+        
+Step 2: 人工标注 gold_tool_calls
+        → 覆盖 M6 Tool Invocation Quality
+
+Step 3: LLM 自动生成 gold_key_info 初稿 → 人工审核修正
+        → 覆盖 M5 Information Utilization
+
+Step 4: LLM 自动生成 rubrics 初稿 → 人工审核修正
+        → 覆盖 M8 Content Quality
+
+一次性定义（做一次全局复用）:
+
+Step 0: 定义 task_type_rules（各任务类型的成功条件 + 格式检查）
+        → 覆盖 M4 Execution Success, M7 Format Compliance</code></pre>
+
+<div class="note-block">
+<strong>LLM 辅助标注 Prompt 示例（Step 3 — 生成 gold_key_info）：</strong><br><br>
+给定以下邮件和 ToDo 任务，请列出执行该任务时可以利用的所有关键信息（来自邮件正文、附件、项目描述、工具返回结果等），每条信息用"字段名=值"的格式。<br><br>
+<strong>LLM 辅助标注 Prompt 示例（Step 4 — 生成 rubric）：</strong><br><br>
+给定以下邮件和 ToDo 任务，请生成一份交付物评分 rubric。列出 4-6 个评分项，每项 1-3 分，总分 10 分。评分项应覆盖：信息利用充分度、任务完成度、准确性、专业性。
+</div>
+
+<hr>
+
+<!-- ==================== Section 2 ==================== -->
+<h2 id="s2">2. 评估数据集有效性验证</h2>
+
+<p>在正式评估 Agent 之前，必须先验证评估数据集本身的质量。</p>
+
+<h3>2.1 代表性（Representativeness）<span class="ref-tag">参考 GDPval [4] O*NET 覆盖率方法</span></h3>
+
+<p>验证数据集是否覆盖了真实邮件场景的分布。具体检查：场景覆盖率（日常沟通、会议安排、项目协作、审批流程、紧急事项等）、邮件复杂度分布（单任务/多任务/嵌套依赖）、语言风格多样性（正式/非正式、长/短邮件）。</p>
+
+<div class="math-block">
+$$Coverage = \frac{|\text{实际覆盖的场景类别}|}{|\text{预定义的全部场景类别}|}$$
+</div>
+
+<p>目标：Coverage ≥ 0.85。</p>
+
+<h3>2.2 一致性（Inter-Annotator Agreement）<span class="ref-tag">Fleiss' Kappa — 标准统计方法</span></h3>
+
+<p>由至少 3 名标注员独立为同一批邮件标注 ground truth。计算 Fleiss' Kappa：</p>
+
+<div class="math-block">
+$$\kappa = \frac{\bar{P} - \bar{P_e}}{1 - \bar{P_e}}$$
+</div>
+
+<p>其中 $\bar{P}$ 是观测一致率，$\bar{P_e}$ 是随机一致率（各类别总体选择比例的平方和）。标准：κ ≥ 0.7 为可接受，≥ 0.8 为良好。</p>
+
+<h3>2.3 可区分性（Discriminability）<span class="ref-tag">经典测验理论 Item Discrimination Index</span></h3>
+
+<p>使用<strong>历史迭代版本</strong>（不同 prompt 版本、不同架构版本）充当"不同考生"。将各版本按总分排序，取上下各 27%：</p>
+
+<div class="math-block">
+$$D_i = P_{upper} - P_{lower}$$
+</div>
+
+<p>$D_i \geq 0.3$ 表示该用例具有良好区分度。</p>
+
+<h3>2.4 数据集有效性综合分数</h3>
+
+<div class="math-block">
+$$DatasetValidity = 0.35 \times Coverage + 0.35 \times \kappa_{norm} + 0.30 \times \bar{D}$$
+</div>
+
+<p>其中 $\kappa_{norm} = \frac{\kappa + 1}{2}$。DatasetValidity ≥ 0.75 方可进入正式评估。</p>
+
+<hr>
+
+<!-- ==================== Section 3 ==================== -->
+<h2 id="s3">3. 评估模块 A — ToDo List 识别</h2>
+
+<h3>3.1 评估数据</h3>
+<ul>
+  <li><strong>输入</strong>：<code>email</code> + <code>context</code></li>
+  <li><strong>Agent 输出</strong>：结构化 ToDo list</li>
+  <li><strong>Ground Truth</strong>：<code>gold_todos</code></li>
+</ul>
+
+<h3>3.2 评估指标</h3>
+
+<p class="metric-title">M1: 任务识别 F1（Task Identification F1）<span class="ref-tag">参考 TaskBench [1] Node F1</span></p>
+
+<p>评估 Agent 识别任务的准确性和完整性。匹配判定使用 embedding cosine similarity ≥ 0.85。</p>
+
+<div class="math-block">
+$$Precision = \frac{|T_{pred} \cap T_{gold}|}{|T_{pred}|} \qquad Recall = \frac{|T_{pred} \cap T_{gold}|}{|T_{gold}|}$$
+$$F1 = \frac{2 \times Precision \times Recall}{Precision + Recall}$$
+</div>
+
+<p>报告中同时展示 Precision（多余任务惩罚）和 Recall（遗漏任务惩罚）的 breakdown。</p>
+
+<p><strong>所需数据</strong>：<code>gold_todos[].description</code> vs Agent 输出的 ToDo descriptions。</p>
+
+<p class="metric-title">M2: 依赖关系 Edge F1<span class="ref-tag">参考 TaskBench [1] Edge F1</span></p>
+
+<p>将任务间的依赖关系建模为有向图，比较预测图和 gold 图的边集。</p>
+
+<div class="math-block">
+$$EdgeF1 = \frac{2 \times |E_{pred} \cap E_{gold}|}{|E_{pred}| + |E_{gold}|}$$
+</div>
+
+<p><strong>所需数据</strong>：<code>gold_todos[].depends_on</code> vs Agent 输出的依赖关系。</p>
+
+<p class="metric-title">M3: 属性准确率（Attribute Accuracy）<span class="ref-tag">参考 TaskBench [1] Parameter F1 思路</span></p>
+
+<p>对匹配成功的任务，逐属性检查：</p>
+
+<div class="math-block">
+$$AttrAcc = \frac{1}{|M|} \sum_{i \in M} \frac{|\text{正确属性数}_i|}{|\text{总属性数}_i|}$$
+</div>
+
+<p><strong>所需数据</strong>：<code>gold_todos[].priority</code>, <code>.deadline</code>, <code>.depends_on</code>。</p>
+
+<h3>3.3 模块 A 综合分数</h3>
+
+<div class="math-block">
+$$S_A = 0.45 \times F1 + 0.30 \times EdgeF1 + 0.25 \times AttrAcc$$
+</div>
+
+<hr>
+
+<!-- ==================== Section 4 ==================== -->
+<h2 id="s4">4. 评估模块 B — ToDo 执行质量（端到端）</h2>
+
+<p>对每个 ToDo item，从"信息获取 → 工具执行 → 交付物产出"作为一条完整链路评估。三个层级由外到内：</p>
+
+<table>
+  <thead><tr><th>层级</th><th>核心问题</th><th>评估方法</th></tr></thead>
+  <tbody>
+    <tr><td>L1: 执行结果</td><td>这个任务做成了没有？</td><td>Code-based 二元判定</td></tr>
+    <tr><td>L2: 过程质量</td><td>执行过程对不对？</td><td>Code-based 指标</td></tr>
+    <tr><td>L3: 交付物质量</td><td>产出的东西好不好？</td><td>Per-case rubric + LLM-as-Judge</td></tr>
+  </tbody>
+</table>
+
+<h3>4.1 L1: 执行结果</h3>
+
+<p class="metric-title">M4: 任务执行成功率（Execution Success）<span class="ref-tag">参考 Survey [5] Task Completion / Success Rate; GDPval [4] task success</span></p>
+
+<p>每个 ToDo 的执行结果为二元判定，判定条件由 <code>task_type_rules</code> 定义：</p>
+
+<div class="math-block">
+$$ExecSuccess = \frac{|\text{执行成功的 ToDo 数}|}{|\text{总 ToDo 数}|}$$
+</div>
+
+<p><strong>所需数据</strong>：<code>task_type_rules</code>（全局复用，无需 per-case 标注）。</p>
+
+<h3>4.2 L2: 过程质量</h3>
+
+<p class="metric-title">M5: 信息获取充分度（Information Utilization）<span class="ref-tag">参考 Survey [5] Memory &amp; Context Retention; ATOD-Eval [3] long-horizon memory</span></p>
+
+<p>检查 Agent 是否充分利用了可用信息源：</p>
+
+<div class="math-block">
+$$InfoUtil = \frac{|\text{实际利用的关键信息}|}{|\text{该 ToDo 可用的关键信息总数}|}$$
+</div>
+
+<p><strong>所需数据</strong>：<code>gold_key_info</code>（LLM 生成 + 人工审核）。</p>
+
+<p class="metric-title">M6: 工具调用正确率（Tool Invocation Quality）<span class="ref-tag">参考 T-Eval [7] step-by-step tool eval; TaskBench [1] Parameter F1 + NED</span></p>
+
+<p>综合评估工具选择、参数传递和调用顺序：</p>
+
+<div class="math-block">
+$$ToolQuality = \frac{1}{|C|} \sum_{c \in C} \left( 0.4 \times sel_c + 0.4 \times param_c + 0.2 \times seq_c \right)$$
+</div>
+
+<table>
+  <thead><tr><th>子项</th><th>含义</th><th>计算方式</th><th>来源</th></tr></thead>
+  <tbody>
+    <tr><td>$sel_c$</td><td>工具选择正确</td><td>选对工具为 1，否则为 0</td><td>Survey [5] Tool Selection Accuracy</td></tr>
+    <tr><td>$param_c$</td><td>参数正确</td><td>参数名称和值的 F1</td><td>TaskBench [1] Parameter Name F1</td></tr>
+    <tr><td>$seq_c$</td><td>调用顺序正确</td><td>$1 - \frac{EditDist(pred, gold)}{max(|pred|, |gold|)}$</td><td>TaskBench [1] NED</td></tr>
+  </tbody>
+</table>
+
+<p><strong>所需数据</strong>：<code>gold_tool_calls</code>（人工标注）。</p>
+
+<h3>4.3 L3: 交付物质量</h3>
+
+<p class="metric-title">M7: 格式正确性（Format Compliance）<span class="ref-tag">参考 Survey [5] Code-based Metrics Computation</span></p>
+
+<div class="math-block">
+$$FormatScore = \frac{|\text{通过的格式检查项}|}{|\text{总格式检查项}|}$$
+</div>
+
+<p><strong>所需数据</strong>：<code>task_type_rules[].format_checks</code>（全局复用）。</p>
+
+<p class="metric-title">M8: 内容质量 — Per-Case Rubric<span class="ref-tag">参考 GDPval [4] expert rubric grading; Survey [5] LLM-as-a-Judge</span></p>
+
+<p>每个 test case 附带专属的评分 rubric，LLM-as-Judge 对照 rubric 逐条评分：</p>
+
+<div class="math-block">
+$$ContentQuality = \frac{\sum_{r} score_r}{total\_points}$$
+</div>
+
+<p><strong>所需数据</strong>：<code>rubrics</code>（LLM 生成 + 人工审核）。无 rubric 时使用通用 5 维度评分兜底（事实准确性 0.30 / 完整性 0.25 / 相关性 0.20 / 专业性 0.15 / 可操作性 0.10）。</p>
+
+<h3>4.4 Per-ToDo 综合分数</h3>
+
+<div class="math-block">
+$$S_{todo_j} = 0.30 \times ExecSuccess_j + 0.30 \times ProcessQuality_j + 0.40 \times DeliverableQuality_j$$
+</div>
+
+<div class="math-block">
+$$ProcessQuality_j = \begin{cases}
+0.5 \times InfoUtil_j + 0.5 \times ToolQuality_j & \text{需要工具调用} \\
+InfoUtil_j & \text{不需要工具调用}
+\end{cases}$$
+</div>
+
+<div class="math-block">
+$$DeliverableQuality_j = 0.25 \times FormatScore_j + 0.75 \times ContentQuality_j$$
+</div>
+
+<p>对于 <code>task_type=tool_action</code> 且无独立 deliverable 的 ToDo（如预订会议室），$DeliverableQuality_j$ 取 $ExecSuccess_j$ 的值。</p>
+
+<h3>4.5 模块 B 综合分数</h3>
+
+<div class="math-block">
+$$S_B = \frac{1}{|T|} \sum_{j \in T} S_{todo_j}$$
+</div>
+
+<div class="example-block">
+<div class="label">完整示例 — Alice 邮件的四个 ToDo</div>
+<pre><code>ToDo T1: 查日历确认周五有空  (tool_action)
+├── L1 执行结果: 1.0 (check_calendar 返回成功)
+├── L2 过程质量: 0.5 × 1.0 + 0.5 × 1.0 = 1.0
+└── L3 交付物质量: = ExecSuccess = 1.0 (无独立 deliverable)
+→ S_T1 = 0.30×1.0 + 0.30×1.0 + 0.40×1.0 = 1.000
+
+ToDo T2: 回复 Alice 确认参会  (email_draft)
+├── L1 执行结果: 1.0 (成功生成邮件草稿)
+├── L2 过程质量: 0.5 × 0.75 + 0.5 × 1.0 = 0.875
+│   ├── InfoUtil: 3/4 = 0.75 (未利用日历结果)
+│   └── ToolQuality: 1.0 (无额外工具调用)
+└── L3 交付物质量: 0.25 × 1.0 + 0.75 × 0.80 = 0.85
+    ├── Format: 1.0 (全部检查通过)
+    └── Rubric: 8/10 = 0.80
+→ S_T2 = 0.30×1.0 + 0.30×0.875 + 0.40×0.85 = 0.903
+
+ToDo T3: 预订 10 人会议室  (tool_action)
+├── L1 执行结果: 1.0 (book_room 返回成功)
+├── L2 过程质量: 0.5 × 0.80 + 0.5 × 0.90 = 0.85
+└── L3 交付物质量: = ExecSuccess = 1.0
+→ S_T3 = 0.30×1.0 + 0.30×0.85 + 0.40×1.0 = 0.955
+
+ToDo T4: 准备 Q1 PPT 初稿  (document)
+├── L1 执行结果: 1.0 (生成了大纲文档)
+├── L2 过程质量: InfoUtil = 0.60 (无工具调用)
+└── L3 交付物质量: 0.25 × 0.80 + 0.75 × 0.70 = 0.725
+    ├── Format: 0.80
+    └── Rubric: 7/10 = 0.70
+→ S_T4 = 0.30×1.0 + 0.30×0.60 + 0.40×0.725 = 0.770
+
+S_B = (1.000 + 0.903 + 0.955 + 0.770) / 4 = 0.907</code></pre>
+</div>
+
+<hr>
+
+<!-- ==================== Section 5 ==================== -->
+<h2 id="s5">5. 评估模块 C — 稳定性</h2>
+
+<h3>5.1 评估方法</h3>
+<p>对同一输入重复运行 Agent k 次（推荐 k=5），观测输出变异。</p>
+
+<p class="metric-title">M9: 一致性 pass^k<span class="ref-tag">参考 τ-Bench [9] pass^k</span></p>
+
+<div class="math-block">
+$$pass^k = \frac{1}{N} \sum_{i=1}^{N} \mathbb{1}[\text{任务 i 在全部 k 次运行中均成功}]$$
+</div>
+
+<p>与 pass@k（至少一次成功）相对，pass^k 衡量的是"每次都成功"的严格一致性，更适合生产环境。</p>
+
+<p class="metric-title">M10: 输出稳定性（Output Stability）<span class="ref-tag">参考 Survey [5] Consistency 章节</span></p>
+
+<div class="math-block">
+$$Stability = \frac{2}{k(k-1)} \sum_{i &lt; j} sim(output_i, output_j)$$
+</div>
+
+<p class="metric-title">M11: 鲁棒性（Robustness）<span class="ref-tag">参考 HELM [5, Ref 51]; Survey [5] Robustness 章节</span></p>
+
+<table>
+  <thead><tr><th>扰动类型</th><th>方法</th></tr></thead>
+  <tbody>
+    <tr><td>措辞改写</td><td>用 LLM paraphrase 邮件正文</td></tr>
+    <tr><td>信息噪声</td><td>添加无关段落或签名信息</td></tr>
+    <tr><td>格式变化</td><td>HTML 邮件 ↔ 纯文本</td></tr>
+    <tr><td>语言混用</td><td>中英文混合邮件</td></tr>
+  </tbody>
+</table>
+
+<div class="math-block">
+$$Robustness = \frac{S_{perturbed}}{S_{original}}$$
+</div>
+
+<h3>5.2 模块 C 综合分数</h3>
+
+<div class="math-block">
+$$S_C = 0.40 \times pass^k + 0.30 \times Stability + 0.30 \times Robustness$$
+</div>
+
+<hr>
+
+<!-- ==================== Section 6 ==================== -->
+<h2 id="s6">6. 整体评估流程</h2>
+
+<h3>6.1 流程总览</h3>
+
+<pre><code>Phase 0: 数据集准备与验证
+  ├─ Step 0a: 定义 task_type_rules（一次性）
+  ├─ Step 0b: 标注 gold_todos, gold_tool_calls（人工）
+  ├─ Step 0c: 生成并审核 gold_key_info, rubrics（LLM + 人工）
+  └─ Step 0d: 验证 Coverage / IAA / Discriminability ≥ 0.75
+
+Phase 1: 单次运行评估（每个 test case 执行 1 次）
+  ├─ Step 1: Agent 接收邮件输入
+  ├─ Step 2: 记录 Agent trace（工具调用、中间推理）
+  ├─ Step 3: 收集 Agent 输出（ToDo list + 执行过程 + Deliverables）
+  ├─ Step 4: 模块 A — ToDo 识别评估 (M1-M3)
+  ├─ Step 5: 模块 B — 逐 ToDo 端到端执行质量 (M4-M8)
+  └─ Step 6: 汇总单次运行结果
+
+Phase 2: 稳定性评估（每个 test case 执行 k 次）
+  ├─ Step 7: 重复运行 k=5 次
+  ├─ Step 8: 计算 pass^k, Stability (M9-M10)
+  └─ Step 9: 扰动测试计算 Robustness (M11)
+
+Phase 3: 综合评分与报告
+  ├─ Step 10: 按难度分层统计
+  ├─ Step 11: 计算总分
+  └─ Step 12: 生成评估报告（含 error analysis）</code></pre>
+
+<h3>6.2 总分公式</h3>
+
+<div class="math-block">
+$$S_{total} = 0.30 \times S_A + 0.50 \times S_B + 0.20 \times S_C$$
+</div>
+
+<h3>6.3 按难度分层报告</h3>
+
+<table>
+  <thead><tr><th>层级</th><th>说明</th><th>权重</th></tr></thead>
+  <tbody>
+    <tr><td>Tier 1: Explicit</td><td>关键词和意图直接匹配</td><td>0.20</td></tr>
+    <tr><td>Tier 2: Semantic</td><td>需要语义推理</td><td>0.40</td></tr>
+    <tr><td>Tier 3: Adversarial</td><td>含混淆/对抗性元素</td><td>0.40</td></tr>
+  </tbody>
+</table>
+
+<div class="math-block">
+$$S_{weighted} = \sum_{t} w_t \times S_{total}^{(t)}$$
+</div>
+
+<hr>
+
+<!-- ==================== Section 7 ==================== -->
+<h2 id="s7">7. 指标一览表</h2>
+
+<table>
+  <thead>
+    <tr><th>#</th><th>指标名称</th><th>所属模块</th><th>计算方法</th><th>所需标注数据</th><th>参考来源</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>M1</td><td>Task F1</td><td>A. ToDo 识别</td><td>Code + Embedding</td><td><code>gold_todos</code></td><td>TaskBench [1] Node F1</td></tr>
+    <tr><td>M2</td><td>Edge F1</td><td>A. ToDo 识别</td><td>Code-based</td><td><code>gold_todos[].depends_on</code></td><td>TaskBench [1] Edge F1</td></tr>
+    <tr><td>M3</td><td>Attribute Accuracy</td><td>A. ToDo 识别</td><td>Code-based</td><td><code>gold_todos</code> 属性</td><td>TaskBench [1] Parameter F1 思路</td></tr>
+    <tr><td>M4</td><td>Execution Success</td><td>B-L1 结果</td><td>Code-based</td><td><code>task_type_rules</code> (全局)</td><td>Survey [5] SR; GDPval [4]</td></tr>
+    <tr><td>M5</td><td>Information Utilization</td><td>B-L2 过程</td><td>Code-based</td><td><code>gold_key_info</code> (LLM+审核)</td><td>Survey [5] Memory; ATOD [3]</td></tr>
+    <tr><td>M6</td><td>Tool Invocation Quality</td><td>B-L2 过程</td><td>Code-based</td><td><code>gold_tool_calls</code></td><td>T-Eval [7]; TaskBench [1]</td></tr>
+    <tr><td>M7</td><td>Format Compliance</td><td>B-L3 交付物</td><td>Code-based (rule)</td><td><code>task_type_rules</code> (全局)</td><td>Survey [5] Code-based eval</td></tr>
+    <tr><td>M8</td><td>Content Quality</td><td>B-L3 交付物</td><td>LLM-as-Judge</td><td><code>rubrics</code> (LLM+审核)</td><td>GDPval [4]; Survey [5]</td></tr>
+    <tr><td>M9</td><td>pass^k</td><td>C. 稳定性</td><td>Code-based</td><td>无 (重复运行)</td><td>τ-Bench [9]</td></tr>
+    <tr><td>M10</td><td>Output Stability</td><td>C. 稳定性</td><td>Code + Embedding</td><td>无 (重复运行)</td><td>Survey [5] Consistency</td></tr>
+    <tr><td>M11</td><td>Robustness</td><td>C. 稳定性</td><td>Code + Perturb</td><td>无 (自动扰动)</td><td>HELM via Survey [5]</td></tr>
+  </tbody>
+</table>
+
+<hr>
+
+<!-- ==================== References ==================== -->
+<h2 id="ref">附录：参考文献</h2>
+<ol class="references">
+  <li><strong>[1]</strong> Shen et al. (2024). TaskBench: Benchmarking Large Language Models for Task Automation. arXiv:2311.18760 — <em>Node F1, Edge F1, Parameter F1, NED 等任务自动化评估指标的来源</em></li>
+  <li><strong>[2]</strong> Geng &amp; Chang (2025). REALM-Bench: A Benchmark for Evaluating Multi-Agent Systems on Real-world, Dynamic Planning and Scheduling Tasks. arXiv:2502.18836 — <em>多维度难度递进、约束满足、动态扰动评估的参考</em></li>
+  <li><strong>[3]</strong> Zhang et al. (2026). ATOD: An Evaluation Framework and Benchmark for Agentic Task-Oriented Dialogue Systems. arXiv:2601.11854 — <em>multi-goal coordination、dependency management、long-horizon memory 评估方法的参考</em></li>
+  <li><strong>[4]</strong> Patwardhan et al. (2025). GDPval: Evaluating AI Model Performance on Real-World Economically Valuable Tasks. arXiv:2510.04374 — <em>per-case rubric 评分、expert pairwise comparison、数据集代表性验证方法的来源</em></li>
+  <li><strong>[5]</strong> Mohammadi et al. (2025). Evaluation and Benchmarking of LLM Agents: A Survey. KDD '25 — <em>评估分类体系（Agent Behavior / Capabilities / Reliability / Safety）、Code-based vs LLM-as-Judge 方法论、Tool Use 评估框架的综述来源</em></li>
+  <li><strong>[6]</strong> Yao et al. (2023). ReAct: Synergizing Reasoning and Acting in Language Models. ICLR 2023 — <em>Agent reasoning-action 交互范式的基础参考</em></li>
+  <li><strong>[7]</strong> Chen et al. (2024). T-Eval: Evaluating the Tool Utilization Capability of LLMs Step by Step. arXiv:2312.14033 — <em>工具调用逐步评估方法，reasoning metric 的来源</em></li>
+  <li><strong>[8]</strong> Chang et al. (2024). AgentBoard: An Analytical Evaluation Board of Multi-turn LLM Agents. NeurIPS 2024 — <em>Progress Rate、fin
